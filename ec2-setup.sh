@@ -6,7 +6,6 @@ set -e
 
 echo "Starting EC2 setup..."
 
-# Detect OS (Amazon Linux vs Ubuntu)
 if [ -f /etc/debian_version ]; then
     OS="ubuntu"
     echo "Detected Ubuntu"
@@ -27,7 +26,6 @@ else
     exit 1
 fi
 
-# Verify Docker
 if ! command -v docker &> /dev/null
 then
     echo "Docker installation failed."
