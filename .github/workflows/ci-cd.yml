@@ -52,5 +52,6 @@ jobs:
           ssh -i private_key.pem -o StrictHostKeyChecking=no ubuntu@$EC2_IP "
             docker stop python-cicd-app || true &&
             docker rm python-cicd-app || true &&
-            docker run -d --name python-cicd-app -p 80:5000 python-cicd-app:staging
+            docker pull $DOCKER_USERNAME/python-cicd-app:staging &&
+            docker run -d --name python-cicd-app -p 80:5000 $DOCKER_USERNAME/python-cicd-app:staging
           "
