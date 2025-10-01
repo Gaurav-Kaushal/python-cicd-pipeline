@@ -11,12 +11,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ---- Source ----
-      - name: Checkout code
+      - name: Checkout code #Source Stage
         uses: actions/checkout@v3
 
-      # ---- Build ----
-      - name: Set up Python
+      - name: Set up Python #Build Stage
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -26,15 +24,13 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      # ---- Test ----
-      - name: Run Tests with Pytest
+      - name: Run Tests with Pytest #Test Stage
         run: pytest --maxfail=1 --disable-warnings -q
 
-      # ---- Staging ----
-      - name: Build Docker Image
+      - name: Build Docker Image #Build & Push to Docker Hub Stage
         run: docker build -t python-cicd-app:staging .
 
-      - name: Setup SSH Key
+      - name: Setup SSH Key #Deploy Stage
         run: |
           echo "${{ secrets.EC2_SSH_KEY }}" > private_key.pem
           chmod 600 private_key.pem
