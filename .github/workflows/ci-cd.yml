@@ -40,8 +40,10 @@ jobs:
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          EC2_IP: ${{ secrets.AWS_EC2_IP }}
           AWS_REGION: ap-south-1
         run: |
+          ssh -o StrictHostKeyChecking=no ec2-user@$EC2_IP "bash -s" < ec2-setup.sh  
           ssh -o StrictHostKeyChecking=no ec2-user@${{ secrets.AWS_EC2_IP }} "
           docker stop python-cicd-app || true &&
           docker rm python-cicd-app || true &&
